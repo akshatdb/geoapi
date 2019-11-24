@@ -12,7 +12,12 @@ app.use(cors())
 app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     console.log(requestIp.getClientIp(req));
-    res.send(geoip.lookup(requestIp.getClientIp(req))?geoip.lookup(requestIp.getClientIp(req)):{error: 'Can not fetch location for a private IP'});
+    res.send({
+        'data':{
+            'location': geoip.lookup(requestIp.getClientIp(req))?geoip.lookup(requestIp.getClientIp(req)):{error: 'Can not fetch location for a private IP'},
+            'ip': requestIp.getClientIp(req)
+        }
+    });
 })
 
 app.listen(server_port, server_ip_address, () => console.log(`Example app listening on ${server_ip_address} on port ${server_port}!`));
