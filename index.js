@@ -15,7 +15,8 @@ app.get('/', (req, res) => {
     res.send({
         'data':{
             'location': geoip.lookup(requestIp.getClientIp(req))?geoip.lookup(requestIp.getClientIp(req)):{error: 'Can not fetch location for a private IP'},
-            'ip': requestIp.getClientIp(req)
+            'ip': requestIp.getClientIp(req),
+            'forwarded': req.header('x-forwarded-for').split(',');
         }
     });
 })
